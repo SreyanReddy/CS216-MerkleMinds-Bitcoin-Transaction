@@ -1,0 +1,19 @@
+[
+  {
+    "txid": "2c1b00bea324bf6f87f9dce2b9b9539496181974a5ec8ee3f676bc70e702af87",
+    "vout": 0,
+    "address": "2N39Tv1nDb5juMiF5VVUHcQ3khGfshkLVMk",
+    "label": "segwit_A_prime",
+    "redeemScript": "001484c61231facf21831fbfec2dc27e51c47659efc8",
+    "scriptPubKey": "a9146c9a63215697b8197ede0736476e35724269901e87",
+    "amount": 0.01,
+    "confirmations": 1,
+    "spendable": true,
+    "solvable": true,
+    "desc": "sh(wpkh([f8cbc30a/49h/1h/0h/0/0]03a43d493cba95afcf716b01aa5281605d87e94df88bba98647d5ef3d9a987203b))#qzqyj7jc",
+    "parent_descs": [
+      "sh(wpkh(tpubD6NzVbkrYhZ4X1MNYmznaugHgiRAtUzmBRaxqoaiSNrNfLgsF6SWngCJehbi89iMnWCNKm65zCn6pPzfoXBLJ7rpziApwcA88HVq4pd4RM4/49h/1h/0h/0/*))#z65uep4q"
+    ],
+    "safe": true
+  }
+]

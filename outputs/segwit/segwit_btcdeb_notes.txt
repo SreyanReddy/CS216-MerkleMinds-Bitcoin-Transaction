@@ -1,0 +1,21 @@
+P2SH-P2WPKH btcdeb validation notes
+-----------------------------------
+For SegWit, document all three pieces:
+1. Outer scriptPubKey from previous output
+2. scriptSig from the spending input (witness program)
+3. txinwitness values (signature + compressed pubkey)
+
+Use these values when running btcdeb and take screenshots showing
+witness-aware validation steps.
+
+Outer scriptPubKey ASM:
+OP_HASH160 d881133c469a399ea78625415b01b96be0cd5913 OP_EQUAL
+
+scriptSig ASM:
+0014946dc5dfcfa43c5614359765a564987ec53b17c9
+
+txinwitness:
+['3044022057a4bc1e433a463a5d4b54b63da4df5eb177d6074cccc2b7df3603fce74376e20220384d3e8b5e40b93f55231706d6c22c76f761a32d4f2aab7f82034bce1f0c301c01', '02929cb1dfedc2f684595109b4d093bf1ef1b99c9fb5b5183a8714094d1db45beb']
+
+Documentation view:
+0014946dc5dfcfa43c5614359765a564987ec53b17c9 | witness: [3044022057a4bc1e433a463a5d4b54b63da4df5eb177d6074cccc2b7df3603fce74376e20220384d3e8b5e40b93f55231706d6c22c76f761a32d4f2aab7f82034bce1f0c301c01 02929cb1dfedc2f684595109b4d093bf1ef1b99c9fb5b5183a8714094d1db45beb] | OP_HASH160 d881133c469a399ea78625415b01b96be0cd5913 OP_EQUAL
