@@ -35,8 +35,7 @@ The program connects to `bitcoind` over RPC, creates transactions, decodes scrip
 ```text
 CS216-MerkleMinds-Bitcoin-Transaction/
 │
-├── report/
-│   └── .pdf
+├── CS216_Blockchain_Assignment2.pdf
 │
 ├── scripts/
 │   ├── run_legacy.py
@@ -270,8 +269,8 @@ The lecture specifically expects:
 Example SegWit size intuition from the lecture:
 
 - witness data is counted at lower weight,
-- \(\text{weight} = (\text{non-witness bytes} \times 4) + \text{witness bytes}\),
-- \(\text{vsize} = \lceil \text{weight} / 4 \rceil\).
+- weight = {non-witness bytes} * 4 + {witness bytes},
+- vsize = {weight} / 4.
 
 ---
 
