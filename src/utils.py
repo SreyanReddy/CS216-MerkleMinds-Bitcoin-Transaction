@@ -1,10 +1,30 @@
 import json
+from decimal import Decimal
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 OUTPUTS_DIR = PROJECT_ROOT / "outputs"
+
+
+def make_json_safe(data: Any) -> Any:
+    """
+    Recursively convert objects like Decimal into JSON-safe values.
+    """
+    if isinstance(data, Decimal):
+        return float(data)
+
+    if isinstance(data, dict):
+        return {key: make_json_safe(value) for key, value in data.items()}
+
+    if isinstance(data, list):
+        return [make_json_safe(item) for item in data]
+
+    if isinstance(data, tuple):
+        return [make_json_safe(item) for item in data]
+
+    return data
 
 
 def ensure_outputs_dir() -> Path:
@@ -20,8 +40,10 @@ def save_json(filename: str, data: Any, subdir: Optional[str] = None) -> Path:
         base_dir.mkdir(parents=True, exist_ok=True)
 
     file_path = base_dir / filename
+    safe_data = make_json_safe(data)
+
     with open(file_path, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2, sort_keys=False)
+        json.dump(safe_data, f, indent=2, sort_keys=False)
 
     return file_path
 
@@ -40,9 +62,9 @@ def load_json(filename: str, subdir: Optional[str] = None) -> Any:
 def pretty_print(title: str, data: Any) -> None:
     print(f"\n{'=' * 20} {title} {'=' * 20}")
     if isinstance(data, (dict, list)):
-        print(json.dumps(data, indent=2))
+        print(json.dumps(make_json_safe(data), indent=2))
     else:
-        print(data)
+        print(make_json_safe(data))
     print(f"{'=' * (42 + len(title))}\n")
 
 
@@ -59,7 +81,7 @@ def require_successful_signing(sign_result: Dict[str, Any]) -> str:
     if not sign_result.get("complete", False):
         errors = sign_result.get("errors", [])
         raise RuntimeError(
-            f"Transaction signing incomplete. Errors: {json.dumps(errors, indent=2)}"
+            f"Transaction signing incomplete. Errors: {json.dumps(make_json_safe(errors), indent=2)}"
         )
 
     signed_hex = sign_result.get("hex")
@@ -136,7 +158,8 @@ def extract_full_script_view(decoded_tx: Dict[str, Any]) -> Dict[str, Any]:
 def select_utxo_for_address(
     utxos: List[Dict[str, Any]],
     address: str,
-    min_amount: float = 0.0,) -> Optional[Dict[str, Any]]:
+    min_amount: float = 0.0,
+) -> Optional[Dict[str, Any]]:
     candidates = [
         utxo
         for utxo in utxos
