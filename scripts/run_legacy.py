@@ -1,7 +1,6 @@
 from pathlib import Path
 import sys
 
-# Allow running the script directly from /scripts
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 
 from src.rpc_client import RPCClient
@@ -19,7 +18,6 @@ from src.utils import (
 WALLET_NAME = "cs216wallet"
 INITIAL_MIN_BALANCE = 1.0
 
-# Use small regtest amounts for clarity
 FUND_A_AMOUNT = 0.01
 AMOUNT_A_TO_B = 0.004
 AMOUNT_B_TO_C = 0.0025
@@ -28,19 +26,11 @@ AMOUNT_B_TO_C = 0.0025
 def main() -> None:
     print("\n=== CS216 Part 1: Legacy P2PKH Transaction Chain ===")
 
-    # ------------------------------------------------------------------
-    # 1. Connect to bitcoind and verify regtest
-    # ------------------------------------------------------------------
     rpc = RPCClient()
     blockchain_info = rpc.get_blockchain_info()
     assert_regtest(blockchain_info)
     pretty_print("Blockchain Info", blockchain_info)
 
-    # ------------------------------------------------------------------
-    # 2. Create/load wallet and ensure matured spendable regtest coins
-    #    Lecture/assignment both emphasize regtest setup and mining enough
-    #    blocks initially so coins are spendable.
-    # ------------------------------------------------------------------
     wallet = WalletManager(rpc, WALLET_NAME)
     wallet_rpc = wallet.create_or_load_wallet()
 
@@ -51,9 +41,6 @@ def main() -> None:
     tx_manager = TransactionManager(wallet_rpc)
     validator = ValidationManager()
 
-    # ------------------------------------------------------------------
-    # 3. Generate three legacy addresses: A, B, C
-    # ------------------------------------------------------------------
     address_a = wallet.get_new_address(label="legacy_A", address_type="legacy")
     address_b = wallet.get_new_address(label="legacy_B", address_type="legacy")
     address_c = wallet.get_new_address(label="legacy_C", address_type="legacy")
@@ -67,9 +54,6 @@ def main() -> None:
     pretty_print("Legacy Addresses", addresses)
     save_json("legacy_addresses.json", addresses, subdir="legacy")
 
-    # ------------------------------------------------------------------
-    # 4. Fund address A using sendtoaddress A, then mine 1 block
-    # ------------------------------------------------------------------
     funding_txid = wallet.send_to_address(address_a, FUND_A_AMOUNT)
     mining_address = wallet.get_new_address(label="legacy_mining", address_type="bech32")
     wallet.mine_blocks(1, mining_address)
@@ -88,9 +72,6 @@ def main() -> None:
     pretty_print("UTXOs for A after funding", utxos_after_funding)
     save_json("legacy_A_utxos.json", utxos_after_funding, subdir="legacy")
 
-    # ------------------------------------------------------------------
-    # 5. Create A -> B, decode it, save it, then mine 1 block
-    # ------------------------------------------------------------------
     step_ab = tx_manager.create_chain_step(
         from_address=address_a,
         to_address=address_b,
@@ -103,10 +84,6 @@ def main() -> None:
 
     pretty_print("Legacy A -> B Artifact", step_ab)
 
-    # ------------------------------------------------------------------
-    # 6. Use B's UTXO from previous transaction to create B -> C
-    #    Assignment explicitly wants listunspent to show B as UTXO, then spend it.
-    # ------------------------------------------------------------------
     b_utxos = wallet.list_unspent(addresses=[address_b])
     pretty_print("UTXOs for B after A -> B", b_utxos)
     save_json("legacy_B_utxos_after_A_to_B.json", b_utxos, subdir="legacy")
@@ -123,11 +100,6 @@ def main() -> None:
 
     pretty_print("Legacy B -> C Artifact", step_bc)
 
-    # ------------------------------------------------------------------
-    # 7. Analyze scripts:
-    #    - challenge script from A -> B output paying B
-    #    - response script from B -> C input spending B's UTXO
-    # ------------------------------------------------------------------
     recipient_output_ab = step_ab.get("recipient_output")
     if recipient_output_ab is None:
         raise RuntimeError(
@@ -145,11 +117,6 @@ def main() -> None:
     pretty_print("Legacy Challenge / Response Analysis", legacy_analysis)
     save_json("legacy_challenge_response_analysis.json", legacy_analysis, subdir="legacy")
 
-    # ------------------------------------------------------------------
-    # 8. Extract required fields for the report from both transactions
-    #    Lecture checklist explicitly asks for:
-    #    scriptPubKey.asm/type, scriptSig.asm, size/vsize/weight
-    # ------------------------------------------------------------------
     ab_required = validator.extract_required_fields(
         decoded_tx=step_ab["decoded_tx"],
         vin_index=0,
@@ -164,10 +131,6 @@ def main() -> None:
     save_json("legacy_A_to_B_required_fields.json", ab_required, subdir="legacy")
     save_json("legacy_B_to_C_required_fields.json", bc_required, subdir="legacy")
 
-    # ------------------------------------------------------------------
-    # 9. Build btcdeb command for Legacy P2PKH
-    #    Lecture shows combining scriptSig + scriptPubKey for P2PKH.
-    # ------------------------------------------------------------------
     btcdeb_command = validator.build_legacy_btcdeb_script(
         spend_tx_decoded=step_bc["decoded_tx"],
         prev_tx_decoded=step_ab["decoded_tx"],
@@ -186,9 +149,6 @@ def main() -> None:
     print("\n=== btcdeb command for Legacy validation ===")
     print(btcdeb_command)
 
-    # ------------------------------------------------------------------
-    # 10. Build compact report bundle / workflow summary
-    # ------------------------------------------------------------------
     workflow_summary = {
         "part": "Part 1 - Legacy P2PKH",
         "wallet_name": WALLET_NAME,

@@ -1,7 +1,6 @@
 from pathlib import Path
 import sys
 
-# Allow running the script directly from /scripts
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 
 from src.rpc_client import RPCClient
@@ -15,11 +14,9 @@ from src.utils import (
     write_text,
 )
 
-
 WALLET_NAME = "cs216wallet"
 INITIAL_MIN_BALANCE = 1.0
 
-# Small regtest amounts for clarity
 FUND_A_PRIME_AMOUNT = 0.01
 AMOUNT_A_PRIME_TO_B_PRIME = 0.004
 AMOUNT_B_PRIME_TO_C_PRIME = 0.0025
@@ -28,17 +25,11 @@ AMOUNT_B_PRIME_TO_C_PRIME = 0.0025
 def main() -> None:
     print("\n=== CS216 Part 2: P2SH-P2WPKH (p2sh-segwit) Transaction Chain ===")
 
-    # ------------------------------------------------------------------
-    # 1. Connect to bitcoind and verify regtest
-    # ------------------------------------------------------------------
     rpc = RPCClient()
     blockchain_info = rpc.get_blockchain_info()
     assert_regtest(blockchain_info)
     pretty_print("Blockchain Info", blockchain_info)
 
-    # ------------------------------------------------------------------
-    # 2. Create/load wallet and ensure matured spendable regtest coins
-    # ------------------------------------------------------------------
     wallet = WalletManager(rpc, WALLET_NAME)
     wallet_rpc = wallet.create_or_load_wallet()
 
@@ -49,10 +40,6 @@ def main() -> None:
     tx_manager = TransactionManager(wallet_rpc)
     validator = ValidationManager()
 
-    # ------------------------------------------------------------------
-    # 3. Generate three P2SH-SegWit addresses: A', B', C'
-    #    Assignment/lecture specifically require "p2sh-segwit" here.
-    # ------------------------------------------------------------------
     address_a_prime = wallet.get_new_address(label="segwit_A_prime", address_type="p2sh-segwit")
     address_b_prime = wallet.get_new_address(label="segwit_B_prime", address_type="p2sh-segwit")
     address_c_prime = wallet.get_new_address(label="segwit_C_prime", address_type="p2sh-segwit")
@@ -66,9 +53,6 @@ def main() -> None:
     pretty_print("P2SH-SegWit Addresses", addresses)
     save_json("segwit_addresses.json", addresses, subdir="segwit")
 
-    # ------------------------------------------------------------------
-    # 4. Fund A' and mine 1 block so it becomes confirmed
-    # ------------------------------------------------------------------
     funding_txid = wallet.send_to_address(address_a_prime, FUND_A_PRIME_AMOUNT)
     mining_address = wallet.get_new_address(label="segwit_mining", address_type="bech32")
     wallet.mine_blocks(1, mining_address)
@@ -87,9 +71,6 @@ def main() -> None:
     pretty_print("UTXOs for A' after funding", utxos_after_funding)
     save_json("segwit_A_prime_utxos.json", utxos_after_funding, subdir="segwit")
 
-    # ------------------------------------------------------------------
-    # 5. Create A' -> B', decode/save it, then mine 1 block
-    # ------------------------------------------------------------------
     step_ab_prime = tx_manager.create_chain_step(
         from_address=address_a_prime,
         to_address=address_b_prime,
@@ -102,9 +83,6 @@ def main() -> None:
 
     pretty_print("SegWit A' -> B' Artifact", step_ab_prime)
 
-    # ------------------------------------------------------------------
-    # 6. Show B' as UTXO, then create B' -> C'
-    # ------------------------------------------------------------------
     b_prime_utxos = wallet.list_unspent(addresses=[address_b_prime])
     pretty_print("UTXOs for B' after A' -> B'", b_prime_utxos)
     save_json("segwit_B_prime_utxos_after_A_prime_to_B_prime.json", b_prime_utxos, subdir="segwit")
@@ -121,15 +99,6 @@ def main() -> None:
 
     pretty_print("SegWit B' -> C' Artifact", step_bc_prime)
 
-    # ------------------------------------------------------------------
-    # 7. Analyze scripts:
-    #    previous output (A' -> B') is the challenge for B'
-    #    spending input (B' -> C') is the response path
-    #    For P2SH-P2WPKH:
-    #      - output scriptPubKey is outer P2SH
-    #      - scriptSig should contain witness program
-    #      - txinwitness contains signature and pubkey
-    # ------------------------------------------------------------------
     recipient_output_ab_prime = step_ab_prime.get("recipient_output")
     if recipient_output_ab_prime is None:
         raise RuntimeError(
@@ -147,14 +116,6 @@ def main() -> None:
     pretty_print("P2SH-P2WPKH Challenge / Response Analysis", segwit_analysis)
     save_json("segwit_challenge_response_analysis.json", segwit_analysis, subdir="segwit")
 
-    # ------------------------------------------------------------------
-    # 8. Extract required report fields
-    #    The lecture explicitly wants:
-    #      scriptPubKey.asm / type
-    #      scriptSig.asm (witness program)
-    #      txinwitness
-    #      size / vsize / weight
-    # ------------------------------------------------------------------
     ab_prime_required = validator.extract_required_fields(
         decoded_tx=step_ab_prime["decoded_tx"],
         vin_index=0,
@@ -169,10 +130,6 @@ def main() -> None:
     save_json("segwit_A_prime_to_B_prime_required_fields.json", ab_prime_required, subdir="segwit")
     save_json("segwit_B_prime_to_C_prime_required_fields.json", bc_prime_required, subdir="segwit")
 
-    # ------------------------------------------------------------------
-    # 9. Build btcdeb helper notes for P2SH-P2WPKH
-    #    SegWit needs witness-aware documentation, not just plain script concatenation.
-    # ------------------------------------------------------------------
     btcdeb_hint = validator.build_p2sh_p2wpkh_btcdeb_hint(
         spend_tx_decoded=step_bc_prime["decoded_tx"],
         prev_tx_decoded=step_ab_prime["decoded_tx"],
@@ -198,9 +155,6 @@ def main() -> None:
     write_text("segwit_btcdeb_notes.txt", btcdeb_notes, subdir="segwit")
     pretty_print("SegWit btcdeb Hint", btcdeb_hint)
 
-    # ------------------------------------------------------------------
-    # 10. Build comparison-friendly metrics for Part 3
-    # ------------------------------------------------------------------
     comparison_rows = [
         validator.build_size_comparison_row(
             label="A_prime_to_B_prime",
@@ -230,9 +184,6 @@ def main() -> None:
     save_json("segwit_part3_metrics.json", part3_payload, subdir="segwit")
     pretty_print("SegWit Part 3 Metrics", part3_payload)
 
-    # ------------------------------------------------------------------
-    # 11. Build compact workflow summary for the report
-    # ------------------------------------------------------------------
     workflow_summary = {
         "part": "Part 2 - P2SH-P2WPKH",
         "wallet_name": WALLET_NAME,
