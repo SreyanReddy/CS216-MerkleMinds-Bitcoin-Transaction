@@ -9,15 +9,6 @@ load_dotenv()
 
 
 class RPCClient:
-    """
-    Small wrapper around Bitcoin Core JSON-RPC for regtest usage.
-
-    Expected environment variables:
-    - RPC_USER
-    - RPC_PASSWORD
-    - RPC_HOST (default: 127.0.0.1)
-    - RPC_PORT (default: 18443 for regtest)
-    """
 
     def __init__(
         self,
@@ -45,9 +36,7 @@ class RPCClient:
         self.connection = self._create_connection()
 
     def _create_connection(self) -> AuthServiceProxy:
-        """
-        Create an RPC connection. If wallet_name is provided, connect to that wallet endpoint.
-        """
+
         if self.wallet_name:
             wallet_url = f"{self.base_url}/wallet/{self.wallet_name}"
             return AuthServiceProxy(wallet_url, timeout=120)
@@ -55,9 +44,7 @@ class RPCClient:
         return AuthServiceProxy(self.base_url, timeout=120)
 
     def with_wallet(self, wallet_name: str) -> "RPCClient":
-        """
-        Return a new RPCClient connected to a specific wallet endpoint.
-        """
+
         return RPCClient(
             rpc_user=self.rpc_user,
             rpc_password=self.rpc_password,
@@ -67,13 +54,7 @@ class RPCClient:
         )
 
     def call(self, method: str, *args: Any) -> Any:
-        """
-        Generic RPC method caller.
 
-        Example:
-            rpc.call("getblockchaininfo")
-            rpc.call("getnewaddress", "", "legacy")
-        """
         try:
             rpc_method = getattr(self.connection, method)
             return rpc_method(*args)
@@ -87,9 +68,6 @@ class RPCClient:
             ) from exc
 
     def ping(self) -> bool:
-        """
-        Basic connectivity check.
-        """
         try:
             self.call("getblockchaininfo")
             return True
@@ -97,9 +75,6 @@ class RPCClient:
             return False
 
     def assert_regtest(self) -> None:
-        """
-        Ensure we are connected to a regtest chain.
-        """
         info = self.get_blockchain_info()
         chain = info.get("chain")
         if chain != "regtest":
