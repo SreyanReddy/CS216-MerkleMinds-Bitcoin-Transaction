@@ -6,7 +6,7 @@ This repository contains the implementation for the CS216 Bitcoin Transaction La
 - **Part 1:** Legacy **P2PKH**
 - **Part 2:** SegWit **P2SH-P2WPKH** using `p2sh-segwit`
 
-The project also includes artifacts for **Part 3 comparative analysis**, where transaction size, virtual size, weight, and script structure are compared between Legacy and SegWit transactions. The assignment requires code for both parts, a clear README, and a single PDF report uploaded in a public GitHub repository.
+The project also includes artifacts for **Part 3 comparative analysis**, where transaction size, virtual size, weight, and script structure are compared between Legacy and SegWit transactions.
 
 ---
 
