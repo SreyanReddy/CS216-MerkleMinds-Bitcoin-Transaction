@@ -1,6 +1,6 @@
 from typing import Any, Dict, List, Optional
 
-from src.rpc_client import RPCClient
+from rpc_client import RPCClient
 
 
 DEFAULT_WALLET_NAME = "cs216wallet"
