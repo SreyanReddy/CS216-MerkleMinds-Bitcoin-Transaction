@@ -201,8 +201,6 @@ These include:
 - workflow summaries,
 - `btcdeb` command or notes files.
 
-This supports the report requirements to document txids, decoded scripts, workflows, and script validation steps with screenshots.
-
 ---
 
 ### Part 1 Deliverables Covered by This Repository
@@ -218,7 +216,6 @@ For **Legacy P2PKH**, the lecture and assignment require:
   - `scriptSig.asm`
   - `size`, `vsize`, `weight`
 - **`btcdeb` validation and screenshots**
-- **explanation** of challenge/response scripts.
 
 This repository automates those steps and stores the corresponding artifacts in `outputs/legacy/`.
 
@@ -239,7 +236,6 @@ For **SegWit P2SH-P2WPKH**, the lecture and assignment require:
   - `txinwitness`
   - `size`, `vsize`, `weight`
 - **`btcdeb` validation with witness data**
-- **explanation** of the script structure and how it differs from Legacy.
 
 This repository automates those steps and stores the corresponding artifacts in `outputs/segwit/`.
 
@@ -247,7 +243,7 @@ This repository automates those steps and stores the corresponding artifacts in 
 
 ### Part 3 Comparative Analysis
 
-The assignment requires a comparison of Legacy P2PKH and SegWit P2SH-P2WPKH in terms of:
+Comparison of Legacy P2PKH and SegWit P2SH-P2WPKH in terms of:
 
 - transaction size,
 - virtual size,
@@ -257,16 +253,7 @@ The assignment requires a comparison of Legacy P2PKH and SegWit P2SH-P2WPKH in t
 - witness discount,
 - benefits of SegWit.
 
-The lecture specifically expects:
-
-- a **size comparison table**,
-- **average** size/vsize/weight,
-- **fee savings percentage**,
-- a **script structure comparison table**,
-- explanation of why `vsize < size`,
-- discussion of benefits such as **lower fees**, **more capacity**, and **reduced malleability**.
-
-Example SegWit size intuition from the lecture:
+Example SegWit size intuition:
 
 - witness data is counted at lower weight,
 - weight = {non-witness bytes} * 4 + {witness bytes},
@@ -276,7 +263,7 @@ Example SegWit size intuition from the lecture:
 
 ### Script Validation with btcdeb
 
-The assignment requires using **btcdeb** to validate scripts for both parts and including screenshots in the report.
+Using **btcdeb** to validate scripts for both parts and including screenshots in the report.
 
 #### Legacy P2PKH
 
@@ -285,17 +272,11 @@ For Legacy, `btcdeb` is used by combining:
 - the spending input’s `scriptSig`
 - the referenced output’s `scriptPubKey`
 
-The lecture gives this exact style of usage and asks for screenshots showing stack execution.
-
 #### SegWit P2SH-P2WPKH
-
-For SegWit, the report must also document:
 
 - outer `scriptPubKey`,
 - `scriptSig` witness program,
 - `txinwitness` contents.
-
-The lecture explicitly notes that for P2SH-P2WPKH, signatures move to `txinwitness`, while `scriptSig` contains the witness program.
 
 ---
 
@@ -306,26 +287,6 @@ The lecture explicitly notes that for P2SH-P2WPKH, signatures move to `txinwitne
 - **Mine 101 blocks initially** for spendable balance.
 - **Mine 1 block after each transaction** to confirm it.
 - **Do not manage raw private keys manually**; let `bitcoind` handle key management through wallet RPC commands such as `getnewaddress` and `signrawtransactionwithwallet`.
-
----
-
-### Report Submission
-
-The repository includes a single PDF report in:
-
-```text
-report/final_report.pdf
-```
-
-The report should include:
-
-- workflow for both parts,
-- TXIDs,
-- decoded scripts,
-- explanation of challenge/response scripts,
-- screenshots of decoded outputs,
-- screenshots of `btcdeb` execution,
-- comparative analysis for Part 3.
 
 ---
 
