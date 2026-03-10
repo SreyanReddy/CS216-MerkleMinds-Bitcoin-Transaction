@@ -139,9 +139,7 @@ def main() -> None:
     )
 
     btcdeb_notes = (
-        "Run this command in your terminal after installing btcdeb.\n"
-        "Use interactive commands like: step, stack, print, run.\n"
-        "Take screenshots showing successful execution and stack changes.\n\n"
+        "Run this command in your terminal after installing btcdeb.\n\n"
         f"{btcdeb_command}\n"
     )
 
@@ -171,13 +169,6 @@ def main() -> None:
             "required_fields_B_to_C": "outputs/legacy/legacy_B_to_C_required_fields.json",
             "btcdeb_command": "outputs/legacy/legacy_btcdeb_command.txt",
         },
-        "report_notes": [
-            "Mention the txid for A -> B and explain how it created B as a UTXO.",
-            "Show that B -> C spends the earlier output sent to B.",
-            "Explain the challenge script (scriptPubKey) and response script (scriptSig).",
-            "Include screenshots of decoderawtransaction outputs and btcdeb execution.",
-            "Record size, vsize, and weight for both transactions.",
-        ],
     }
 
     save_json("legacy_workflow_summary.json", workflow_summary, subdir="legacy")

@@ -138,14 +138,6 @@ def main() -> None:
     )
 
     btcdeb_notes = (
-        "P2SH-P2WPKH btcdeb validation notes\n"
-        "-----------------------------------\n"
-        "For SegWit, document all three pieces:\n"
-        "1. Outer scriptPubKey from previous output\n"
-        "2. scriptSig from the spending input (witness program)\n"
-        "3. txinwitness values (signature + compressed pubkey)\n\n"
-        "Use these values when running btcdeb and take screenshots showing\n"
-        "witness-aware validation steps.\n\n"
         f"Outer scriptPubKey ASM:\n{btcdeb_hint['outer_scriptpubkey_asm']}\n\n"
         f"scriptSig ASM:\n{btcdeb_hint['scriptsig_asm']}\n\n"
         f"txinwitness:\n{btcdeb_hint['txinwitness']}\n\n"
@@ -207,15 +199,6 @@ def main() -> None:
             "btcdeb_notes": "outputs/segwit/segwit_btcdeb_notes.txt",
             "part3_metrics": "outputs/segwit/segwit_part3_metrics.json",
         },
-        "report_notes": [
-            "Mention the txid for A' -> B' and explain how that output became B' as a UTXO.",
-            "Show that B' -> C' spends the earlier output created for B'.",
-            "Explain the outer P2SH locking script in scriptPubKey.",
-            "Explain that scriptSig contains the witness program, not the signature/pubkey pair.",
-            "Document txinwitness and show how it carries the signature and compressed public key.",
-            "Include screenshots of decoderawtransaction outputs and btcdeb execution.",
-            "Record size, vsize, and weight for both transactions and compare them with Legacy.",
-        ],
     }
 
     save_json("segwit_workflow_summary.json", workflow_summary, subdir="segwit")
