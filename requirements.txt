@@ -1,0 +1,3 @@
+python-bitcoinrpc
+python-dotenv
+pytest #optional

@@ -1,0 +1,18 @@
+[
+  {
+    "txid": "f4d5dfc2879a0b3119df60c9f2468d89aa02e1fc529dc84668beb3784074e2b6",
+    "vout": 0,
+    "address": "mtdF1VANxcurU6JSRGsbFKi46BPyanjtJ5",
+    "label": "legacy_A",
+    "scriptPubKey": "76a9148fca155984b43b7199d1118de69fb9823b13f18c88ac",
+    "amount": 0.01,
+    "confirmations": 1,
+    "spendable": true,
+    "solvable": true,
+    "desc": "pkh([f8cbc30a/44h/1h/0h/0/0]02718fe24ddd2be058ad7379ef7e23f0fa4897479cb55c556817cda3549d93b173)#v0spayc6",
+    "parent_descs": [
+      "pkh(tpubD6NzVbkrYhZ4X1MNYmznaugHgiRAtUzmBRaxqoaiSNrNfLgsF6SWngCJehbi89iMnWCNKm65zCn6pPzfoXBLJ7rpziApwcA88HVq4pd4RM4/44h/1h/0h/0/*)#627a30w0"
+    ],
+    "safe": true
+  }
+]
