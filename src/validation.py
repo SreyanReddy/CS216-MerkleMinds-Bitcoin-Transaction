@@ -7,15 +7,6 @@ from src.utils import extract_full_script_view, extract_tx_summary
 
 
 class ValidationManager:
-    """
-    Script-analysis and report-helper utilities for the CS216 Bitcoin assignment.
-
-    Focus:
-    - legacy P2PKH script analysis
-    - P2SH-P2WPKH script analysis
-    - btcdeb command preparation
-    - comparison helpers for Part 3
-    """
 
     @staticmethod
     def get_input(decoded_tx: Dict[str, Any], vin_index: int = 0) -> Dict[str, Any]:
@@ -45,15 +36,8 @@ class ValidationManager:
     def extract_required_fields(
         decoded_tx: Dict[str, Any],
         vin_index: int = 0,
-        vout_index: Optional[int] = None,
-    ) -> Dict[str, Any]:
-        """
-        Extract the exact fields emphasized by the assignment/lecture:
-        - scriptPubKey.asm and type
-        - scriptSig.asm
-        - txinwitness
-        - size, vsize, weight
-        """
+        vout_index: Optional[int] = None,) -> Dict[str, Any]:
+        
         vin = ValidationManager.get_input(decoded_tx, vin_index)
 
         result = {
@@ -93,13 +77,8 @@ class ValidationManager:
         decoded_prev_tx: Dict[str, Any],
         decoded_spend_tx: Dict[str, Any],
         prev_output_index: int,
-        spend_input_index: int = 0,
-    ) -> Dict[str, Any]:
-        """
-        Analyze a classic P2PKH flow:
-        - previous tx output contains locking script (challenge)
-        - spending tx input contains scriptSig (response)
-        """
+        spend_input_index: int = 0,) -> Dict[str, Any]:
+
         prev_vout = ValidationManager.get_output(decoded_prev_tx, prev_output_index)
         spend_vin = ValidationManager.get_input(decoded_spend_tx, spend_input_index)
 
@@ -138,14 +117,8 @@ class ValidationManager:
         decoded_prev_tx: Dict[str, Any],
         decoded_spend_tx: Dict[str, Any],
         prev_output_index: int,
-        spend_input_index: int = 0,
-    ) -> Dict[str, Any]:
-        """
-        Analyze a P2SH-P2WPKH flow:
-        - previous output scriptPubKey is outer P2SH challenge
-        - spending input scriptSig should contain witness program
-        - actual signature/public key live in txinwitness
-        """
+        spend_input_index: int = 0,) -> Dict[str, Any]:
+
         prev_vout = ValidationManager.get_output(decoded_prev_tx, prev_output_index)
         spend_vin = ValidationManager.get_input(decoded_spend_tx, spend_input_index)
 
@@ -185,14 +158,8 @@ class ValidationManager:
         spend_tx_decoded: Dict[str, Any],
         prev_tx_decoded: Dict[str, Any],
         prev_output_index: int,
-        spend_input_index: int = 0,
-    ) -> str:
-        """
-        Build a simple combined-script btcdeb command for legacy P2PKH.
+        spend_input_index: int = 0,) -> str:
 
-        Lecture pattern:
-        btcdeb '<sig> <pubKey> OP_DUP OP_HASH160 <pubKeyHash> OP_EQUALVERIFY OP_CHECKSIG'
-        """
         spend_vin = ValidationManager.get_input(spend_tx_decoded, spend_input_index)
         prev_vout = ValidationManager.get_output(prev_tx_decoded, prev_output_index)
 
@@ -207,18 +174,8 @@ class ValidationManager:
         spend_tx_decoded: Dict[str, Any],
         prev_tx_decoded: Dict[str, Any],
         prev_output_index: int,
-        spend_input_index: int = 0,
-    ) -> Dict[str, Any]:
-        """
-        Provide a practical btcdeb helper payload for P2SH-P2WPKH.
+        spend_input_index: int = 0,) -> Dict[str, Any]:
 
-        SegWit validation is more nuanced than plain script concatenation because
-        signatures live in txinwitness. For the report, we still want to surface:
-        - outer scriptPubKey
-        - scriptSig witness program
-        - txinwitness elements
-        - a suggested combined view for documentation
-        """
         spend_vin = ValidationManager.get_input(spend_tx_decoded, spend_input_index)
         prev_vout = ValidationManager.get_output(prev_tx_decoded, prev_output_index)
 
@@ -244,10 +201,7 @@ class ValidationManager:
 
     @staticmethod
     def classify_transaction_type(decoded_tx: Dict[str, Any]) -> str:
-        """
-        Heuristic classifier based on decoded input/output fields.
-        Useful for report automation.
-        """
+
         vin0 = decoded_tx.get("vin", [{}])[0]
         vout0 = decoded_tx.get("vout", [{}])[0]
 
@@ -288,11 +242,7 @@ class ValidationManager:
         label: str,
         decoded_tx: Dict[str, Any],
         tx_type: str,
-        baseline_vsize: Optional[float] = None,
-    ) -> Dict[str, Any]:
-        """
-        Build one report-ready comparison row.
-        """
+        baseline_vsize: Optional[float] = None,) -> Dict[str, Any]:
         summary = extract_tx_summary(decoded_tx)
         row = {
             "label": label,
@@ -317,9 +267,6 @@ class ValidationManager:
 
     @staticmethod
     def explain_witness_discount(decoded_tx: Dict[str, Any]) -> Dict[str, Any]:
-        """
-        Return the exact formulas and an interpretation for Part 3.
-        """
         size = decoded_tx.get("size")
         vsize = decoded_tx.get("vsize")
         weight = decoded_tx.get("weight")
@@ -345,11 +292,7 @@ class ValidationManager:
         tx_label: str,
         tx_type: str,
         vin_index: int = 0,
-        vout_index: Optional[int] = None,
-    ) -> Dict[str, Any]:
-        """
-        Compact report bundle combining scripts + size metrics.
-        """
+        vout_index: Optional[int] = None,) -> Dict[str, Any]:
         return {
             "tx_label": tx_label,
             "tx_type": tx_type,
