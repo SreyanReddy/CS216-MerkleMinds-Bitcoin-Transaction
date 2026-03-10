@@ -8,17 +8,11 @@ OUTPUTS_DIR = PROJECT_ROOT / "outputs"
 
 
 def ensure_outputs_dir() -> Path:
-    """
-    Ensure outputs/ exists and return its path.
-    """
     OUTPUTS_DIR.mkdir(parents=True, exist_ok=True)
     return OUTPUTS_DIR
 
 
 def save_json(filename: str, data: Any, subdir: Optional[str] = None) -> Path:
-    """
-    Save a Python object as pretty JSON inside outputs/.
-    """
     base_dir = ensure_outputs_dir()
 
     if subdir:
@@ -33,9 +27,6 @@ def save_json(filename: str, data: Any, subdir: Optional[str] = None) -> Path:
 
 
 def load_json(filename: str, subdir: Optional[str] = None) -> Any:
-    """
-    Load a JSON file from outputs/.
-    """
     base_dir = ensure_outputs_dir()
 
     if subdir:
@@ -47,9 +38,6 @@ def load_json(filename: str, subdir: Optional[str] = None) -> Any:
 
 
 def pretty_print(title: str, data: Any) -> None:
-    """
-    Print a formatted block to the console.
-    """
     print(f"\n{'=' * 20} {title} {'=' * 20}")
     if isinstance(data, (dict, list)):
         print(json.dumps(data, indent=2))
@@ -59,9 +47,6 @@ def pretty_print(title: str, data: Any) -> None:
 
 
 def assert_regtest(blockchain_info: Dict[str, Any]) -> None:
-    """
-    Ensure the connected node is running on regtest.
-    """
     chain = blockchain_info.get("chain")
     if chain != "regtest":
         raise RuntimeError(
@@ -71,9 +56,6 @@ def assert_regtest(blockchain_info: Dict[str, Any]) -> None:
 
 
 def require_successful_signing(sign_result: Dict[str, Any]) -> str:
-    """
-    Validate the result of signrawtransactionwithwallet and return signed hex.
-    """
     if not sign_result.get("complete", False):
         errors = sign_result.get("errors", [])
         raise RuntimeError(
@@ -88,10 +70,6 @@ def require_successful_signing(sign_result: Dict[str, Any]) -> str:
 
 
 def find_vout_for_address(decoded_tx: Dict[str, Any], address: str) -> Optional[Dict[str, Any]]:
-    """
-    From a decoded transaction, find the output paying to the given address.
-    Works for legacy and SegWit outputs where address info is present.
-    """
     for vout in decoded_tx.get("vout", []):
         script_pub_key = vout.get("scriptPubKey", {})
         addresses = script_pub_key.get("addresses", [])
@@ -107,9 +85,6 @@ def find_vout_for_address(decoded_tx: Dict[str, Any], address: str) -> Optional[
 
 
 def extract_tx_summary(decoded_tx: Dict[str, Any]) -> Dict[str, Any]:
-    """
-    Extract a compact summary useful for report comparison.
-    """
     return {
         "txid": decoded_tx.get("txid"),
         "hash": decoded_tx.get("hash"),
@@ -124,9 +99,6 @@ def extract_tx_summary(decoded_tx: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def extract_output_script_details(vout: Dict[str, Any]) -> Dict[str, Any]:
-    """
-    Extract locking script details from one vout.
-    """
     script_pub_key = vout.get("scriptPubKey", {})
 
     return {
@@ -141,10 +113,6 @@ def extract_output_script_details(vout: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def extract_input_script_details(vin: Dict[str, Any]) -> Dict[str, Any]:
-    """
-    Extract unlocking-related details from one vin.
-    Handles both legacy and SegWit-style decoded tx structure.
-    """
     script_sig = vin.get("scriptSig", {})
 
     return {
@@ -158,10 +126,6 @@ def extract_input_script_details(vin: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def extract_full_script_view(decoded_tx: Dict[str, Any]) -> Dict[str, Any]:
-    """
-    Extract script-focused details for all inputs/outputs.
-    Useful for saving decoded transaction data for the report.
-    """
     return {
         "tx_summary": extract_tx_summary(decoded_tx),
         "inputs": [extract_input_script_details(vin) for vin in decoded_tx.get("vin", [])],
@@ -172,11 +136,7 @@ def extract_full_script_view(decoded_tx: Dict[str, Any]) -> Dict[str, Any]:
 def select_utxo_for_address(
     utxos: List[Dict[str, Any]],
     address: str,
-    min_amount: float = 0.0,
-) -> Optional[Dict[str, Any]]:
-    """
-    Select the first matching UTXO for an address with at least min_amount.
-    """
+    min_amount: float = 0.0,) -> Optional[Dict[str, Any]]:
     candidates = [
         utxo
         for utxo in utxos
@@ -191,9 +151,6 @@ def select_utxo_for_address(
 
 
 def build_spending_input(utxo: Dict[str, Any]) -> Dict[str, Any]:
-    """
-    Convert a listunspent result entry into the input format expected by createrawtransaction.
-    """
     if "txid" not in utxo or "vout" not in utxo:
         raise ValueError("UTXO must contain 'txid' and 'vout'.")
 
@@ -204,16 +161,10 @@ def build_spending_input(utxo: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def build_single_output(address: str, amount: float) -> Dict[str, float]:
-    """
-    Build a simple createrawtransaction outputs object.
-    """
     return {address: amount}
 
 
 def summarize_utxo(utxo: Dict[str, Any]) -> Dict[str, Any]:
-    """
-    Compact UTXO summary for logs/report notes.
-    """
     return {
         "txid": utxo.get("txid"),
         "vout": utxo.get("vout"),
@@ -227,10 +178,6 @@ def summarize_utxo(utxo: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def write_text(filename: str, content: str, subdir: Optional[str] = None) -> Path:
-    """
-    Save a plain-text file in outputs/.
-    Helpful later for btcdeb commands or notes.
-    """
     base_dir = ensure_outputs_dir()
 
     if subdir:
