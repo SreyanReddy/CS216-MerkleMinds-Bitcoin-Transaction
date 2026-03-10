@@ -1,0 +1,47 @@
+{
+  "comparison_rows": [
+    {
+      "label": "A_prime_to_B_prime",
+      "tx_type": "p2sh-p2wpkh",
+      "size": 247,
+      "vsize": 166,
+      "weight": 661,
+      "fee_savings_percent": 0.0
+    },
+    {
+      "label": "B_prime_to_C_prime",
+      "tx_type": "p2sh-p2wpkh",
+      "size": 247,
+      "vsize": 166,
+      "weight": 661,
+      "fee_savings_percent": 0.0
+    }
+  ],
+  "average_metrics": {
+    "avg_size": 247.0,
+    "avg_vsize": 166.0,
+    "avg_weight": 661.0
+  },
+  "witness_discount_examples": {
+    "A_prime_to_B_prime": {
+      "size": 247,
+      "vsize": 166,
+      "weight": 661,
+      "formula": {
+        "weight": "(non-witness bytes \u00d7 4) + witness bytes",
+        "vsize": "ceil(weight / 4)"
+      },
+      "explanation": "SegWit moves signatures to txinwitness. Witness bytes are discounted in weight calculation, so vsize is often significantly smaller than raw size. Because fees are paid using vsize, SegWit transactions are cheaper."
+    },
+    "B_prime_to_C_prime": {
+      "size": 247,
+      "vsize": 166,
+      "weight": 661,
+      "formula": {
+        "weight": "(non-witness bytes \u00d7 4) + witness bytes",
+        "vsize": "ceil(weight / 4)"
+      },
+      "explanation": "SegWit moves signatures to txinwitness. Witness bytes are discounted in weight calculation, so vsize is often significantly smaller than raw size. Because fees are paid using vsize, SegWit transactions are cheaper."
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "mode": "legacy",
+  "previous_txid": "2c1640b2aadf4723ace7d0f0a6564e746b4498853422fd6ff404a21d1a6214e8",
+  "spending_txid": "b702f82988e20f05fc317de78022fd7c2c765bca6a29943f2d483b05204b054b",
+  "challenge_script": {
+    "source": "previous transaction output scriptPubKey",
+    "asm": "OP_DUP OP_HASH160 def0b4b54dbd528bb72e42b09758ef0c0bf126fe OP_EQUALVERIFY OP_CHECKSIG",
+    "hex": "76a914def0b4b54dbd528bb72e42b09758ef0c0bf126fe88ac",
+    "type": "pubkeyhash",
+    "address": "n1qkfBL84doCJjfV2jVz51YvxuNgnkX1uy"
+  },
+  "response_script": {
+    "source": "spending transaction input scriptSig",
+    "asm": "304402205c385dbcc8d45965ba9746bed6a40835a92ae430dd14d0e10d11e44e538e169002203cf64101a935bd6da4cc4f3d9ce27db1b07e5e5048e14c34d05a5b8b45572b1d[ALL] 02616de7322fb47304931476201c866e0830be7fb8a647dba83e4051360305f7e4",
+    "hex": "47304402205c385dbcc8d45965ba9746bed6a40835a92ae430dd14d0e10d11e44e538e169002203cf64101a935bd6da4cc4f3d9ce27db1b07e5e5048e14c34d05a5b8b45572b1d012102616de7322fb47304931476201c866e0830be7fb8a647dba83e4051360305f7e4"
+  },
+  "witness": [],
+  "explanation": "For Legacy P2PKH, the challenge is the previous output's scriptPubKey (typically OP_DUP OP_HASH160 <pubKeyHash> OP_EQUALVERIFY OP_CHECKSIG). The response is the spending input's scriptSig, which typically pushes the signature and public key. Bitcoin validates the spend by executing scriptSig followed by scriptPubKey; the pubKey hash must match and the signature must verify."
+}

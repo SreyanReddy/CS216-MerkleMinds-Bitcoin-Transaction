@@ -1,0 +1,26 @@
+{
+  "txid": "2c1640b2aadf4723ace7d0f0a6564e746b4498853422fd6ff404a21d1a6214e8",
+  "size": 225,
+  "vsize": 225,
+  "weight": 900,
+  "input": {
+    "txid": "f4d5dfc2879a0b3119df60c9f2468d89aa02e1fc529dc84668beb3784074e2b6",
+    "vout": 0,
+    "scriptSig": {
+      "asm": "30440220680a747d721d6bc252c77f73328e2cb4e6924823bcc4070d3555c15268f79f0d02204c88880191a70dc70d5c6575fff2ddafa02babd6915d6ff6261495a223d1736f[ALL] 02718fe24ddd2be058ad7379ef7e23f0fa4897479cb55c556817cda3549d93b173",
+      "hex": "4730440220680a747d721d6bc252c77f73328e2cb4e6924823bcc4070d3555c15268f79f0d02204c88880191a70dc70d5c6575fff2ddafa02babd6915d6ff6261495a223d1736f012102718fe24ddd2be058ad7379ef7e23f0fa4897479cb55c556817cda3549d93b173"
+    },
+    "txinwitness": []
+  },
+  "output": {
+    "n": 0,
+    "value": 0.004,
+    "scriptPubKey": {
+      "asm": "OP_DUP OP_HASH160 def0b4b54dbd528bb72e42b09758ef0c0bf126fe OP_EQUALVERIFY OP_CHECKSIG",
+      "hex": "76a914def0b4b54dbd528bb72e42b09758ef0c0bf126fe88ac",
+      "type": "pubkeyhash",
+      "address": "n1qkfBL84doCJjfV2jVz51YvxuNgnkX1uy",
+      "addresses": []
+    }
+  }
+}

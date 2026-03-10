@@ -1,0 +1,11 @@
+{
+  "txid": "2c1640b2aadf4723ace7d0f0a6564e746b4498853422fd6ff404a21d1a6214e8",
+  "hash": "2c1640b2aadf4723ace7d0f0a6564e746b4498853422fd6ff404a21d1a6214e8",
+  "version": 2,
+  "size": 225,
+  "vsize": 225,
+  "weight": 900,
+  "locktime": 0,
+  "vin_count": 1,
+  "vout_count": 2
+}

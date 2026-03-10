@@ -1,0 +1,29 @@
+{
+  "txid": "d2c707f2160bf56dee0acc861a7451114ff7b4baa47fc57e24c911865b6d30a0",
+  "size": 247,
+  "vsize": 166,
+  "weight": 661,
+  "input": {
+    "txid": "2c1b00bea324bf6f87f9dce2b9b9539496181974a5ec8ee3f676bc70e702af87",
+    "vout": 0,
+    "scriptSig": {
+      "asm": "001484c61231facf21831fbfec2dc27e51c47659efc8",
+      "hex": "16001484c61231facf21831fbfec2dc27e51c47659efc8"
+    },
+    "txinwitness": [
+      "3044022000fc6356b36d748d62f372cdf1c4916420085a08dfd2832f92bad84ddd20759702203d241aaff02bf9332e287b0c09e7301d5ef306efc5cb475fe40eba75acd5950001",
+      "03a43d493cba95afcf716b01aa5281605d87e94df88bba98647d5ef3d9a987203b"
+    ]
+  },
+  "output": {
+    "n": 1,
+    "value": 0.004,
+    "scriptPubKey": {
+      "asm": "OP_HASH160 d881133c469a399ea78625415b01b96be0cd5913 OP_EQUAL",
+      "hex": "a914d881133c469a399ea78625415b01b96be0cd591387",
+      "type": "scripthash",
+      "address": "2NCyza1x1gcDC5F9pJktPKMFm4bLPGt6Wew",
+      "addresses": []
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "part": "Part 2 - P2SH-P2WPKH",
+  "wallet_name": "cs216wallet",
+  "addresses": {
+    "A_prime": "2N39Tv1nDb5juMiF5VVUHcQ3khGfshkLVMk",
+    "B_prime": "2NCyza1x1gcDC5F9pJktPKMFm4bLPGt6Wew",
+    "C_prime": "2N859z6m1Epz9328qAcaX95ry5Rmk4n113x",
+    "address_type": "p2sh-segwit"
+  },
+  "funding": {
+    "funding_txid": "2c1b00bea324bf6f87f9dce2b9b9539496181974a5ec8ee3f676bc70e702af87",
+    "funded_address": "2N39Tv1nDb5juMiF5VVUHcQ3khGfshkLVMk",
+    "fund_amount": 0.01,
+    "confirmation_blocks_mined": 1,
+    "mining_address": "bcrt1qcxrc382dlzwdf9amckknprpywl8zrk502hcl2q"
+  },
+  "tx_chain": {
+    "A_prime_to_B_prime": {
+      "txid": "d2c707f2160bf56dee0acc861a7451114ff7b4baa47fc57e24c911865b6d30a0",
+      "recipient_output_index_for_B_prime": 1,
+      "saved_paths": {
+        "full_artifact": "D:\\VS code files\\Blockchain2\\CS216-MerkleMinds-Bitcoin-Transaction\\outputs\\segwit\\A_prime_to_B_prime_d2c707f2160bf56dee0acc861a7451114ff7b4baa47fc57e24c911865b6d30a0_full.json",
+        "decoded_tx": "D:\\VS code files\\Blockchain2\\CS216-MerkleMinds-Bitcoin-Transaction\\outputs\\segwit\\A_prime_to_B_prime_d2c707f2160bf56dee0acc861a7451114ff7b4baa47fc57e24c911865b6d30a0_decoded.json",
+        "scripts": "D:\\VS code files\\Blockchain2\\CS216-MerkleMinds-Bitcoin-Transaction\\outputs\\segwit\\A_prime_to_B_prime_d2c707f2160bf56dee0acc861a7451114ff7b4baa47fc57e24c911865b6d30a0_scripts.json",
+        "summary": "D:\\VS code files\\Blockchain2\\CS216-MerkleMinds-Bitcoin-Transaction\\outputs\\segwit\\A_prime_to_B_prime_d2c707f2160bf56dee0acc861a7451114ff7b4baa47fc57e24c911865b6d30a0_summary.json"
+      }
+    },
+    "B_prime_to_C_prime": {
+      "txid": "a921fcc36ec34c503be92c37fc661969cd48efc5d3cef542d2dd9b5efec4dec2",
+      "saved_paths": {
+        "full_artifact": "D:\\VS code files\\Blockchain2\\CS216-MerkleMinds-Bitcoin-Transaction\\outputs\\segwit\\B_prime_to_C_prime_a921fcc36ec34c503be92c37fc661969cd48efc5d3cef542d2dd9b5efec4dec2_full.json",
+        "decoded_tx": "D:\\VS code files\\Blockchain2\\CS216-MerkleMinds-Bitcoin-Transaction\\outputs\\segwit\\B_prime_to_C_prime_a921fcc36ec34c503be92c37fc661969cd48efc5d3cef542d2dd9b5efec4dec2_decoded.json",
+        "scripts": "D:\\VS code files\\Blockchain2\\CS216-MerkleMinds-Bitcoin-Transaction\\outputs\\segwit\\B_prime_to_C_prime_a921fcc36ec34c503be92c37fc661969cd48efc5d3cef542d2dd9b5efec4dec2_scripts.json",
+        "summary": "D:\\VS code files\\Blockchain2\\CS216-MerkleMinds-Bitcoin-Transaction\\outputs\\segwit\\B_prime_to_C_prime_a921fcc36ec34c503be92c37fc661969cd48efc5d3cef542d2dd9b5efec4dec2_summary.json"
+      }
+    }
+  },
+  "analysis_files": {
+    "challenge_response": "outputs/segwit/segwit_challenge_response_analysis.json",
+    "required_fields_A_prime_to_B_prime": "outputs/segwit/segwit_A_prime_to_B_prime_required_fields.json",
+    "required_fields_B_prime_to_C_prime": "outputs/segwit/segwit_B_prime_to_C_prime_required_fields.json",
+    "btcdeb_notes": "outputs/segwit/segwit_btcdeb_notes.txt",
+    "part3_metrics": "outputs/segwit/segwit_part3_metrics.json"
+  },
+  "report_notes": [
+    "Mention the txid for A' -> B' and explain how that output became B' as a UTXO.",
+    "Show that B' -> C' spends the earlier output created for B'.",
+    "Explain the outer P2SH locking script in scriptPubKey.",
+    "Explain that scriptSig contains the witness program, not the signature/pubkey pair.",
+    "Document txinwitness and show how it carries the signature and compressed public key.",
+    "Include screenshots of decoderawtransaction outputs and btcdeb execution.",
+    "Record size, vsize, and weight for both transactions and compare them with Legacy."
+  ]
+}

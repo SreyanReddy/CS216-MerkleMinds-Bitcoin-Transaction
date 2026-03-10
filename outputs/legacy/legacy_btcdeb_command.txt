@@ -1,0 +1,5 @@
+Run this command in your terminal after installing btcdeb.
+Use interactive commands like: step, stack, print, run.
+Take screenshots showing successful execution and stack changes.
+
+btcdeb '304402205c385dbcc8d45965ba9746bed6a40835a92ae430dd14d0e10d11e44e538e169002203cf64101a935bd6da4cc4f3d9ce27db1b07e5e5048e14c34d05a5b8b45572b1d[ALL] 02616de7322fb47304931476201c866e0830be7fb8a647dba83e4051360305f7e4 OP_DUP OP_HASH160 def0b4b54dbd528bb72e42b09758ef0c0bf126fe OP_EQUALVERIFY OP_CHECKSIG'

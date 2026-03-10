@@ -1,0 +1,51 @@
+{
+  "part": "Part 1 - Legacy P2PKH",
+  "wallet_name": "cs216wallet",
+  "addresses": {
+    "A": "mtdF1VANxcurU6JSRGsbFKi46BPyanjtJ5",
+    "B": "n1qkfBL84doCJjfV2jVz51YvxuNgnkX1uy",
+    "C": "mgHb6ox6swu4HjRbYnegsBe7Qf75Uy2dwo",
+    "address_type": "legacy"
+  },
+  "funding": {
+    "funding_txid": "f4d5dfc2879a0b3119df60c9f2468d89aa02e1fc529dc84668beb3784074e2b6",
+    "funded_address": "mtdF1VANxcurU6JSRGsbFKi46BPyanjtJ5",
+    "fund_amount": 0.01,
+    "confirmation_blocks_mined": 1,
+    "mining_address": "bcrt1q09tw93z8w5wf5y2f5af42nnsza04kf5hvn4h2y"
+  },
+  "tx_chain": {
+    "A_to_B": {
+      "txid": "2c1640b2aadf4723ace7d0f0a6564e746b4498853422fd6ff404a21d1a6214e8",
+      "recipient_output_index_for_B": 0,
+      "saved_paths": {
+        "full_artifact": "D:\\VS code files\\Blockchain2\\CS216-MerkleMinds-Bitcoin-Transaction\\outputs\\legacy\\A_to_B_2c1640b2aadf4723ace7d0f0a6564e746b4498853422fd6ff404a21d1a6214e8_full.json",
+        "decoded_tx": "D:\\VS code files\\Blockchain2\\CS216-MerkleMinds-Bitcoin-Transaction\\outputs\\legacy\\A_to_B_2c1640b2aadf4723ace7d0f0a6564e746b4498853422fd6ff404a21d1a6214e8_decoded.json",
+        "scripts": "D:\\VS code files\\Blockchain2\\CS216-MerkleMinds-Bitcoin-Transaction\\outputs\\legacy\\A_to_B_2c1640b2aadf4723ace7d0f0a6564e746b4498853422fd6ff404a21d1a6214e8_scripts.json",
+        "summary": "D:\\VS code files\\Blockchain2\\CS216-MerkleMinds-Bitcoin-Transaction\\outputs\\legacy\\A_to_B_2c1640b2aadf4723ace7d0f0a6564e746b4498853422fd6ff404a21d1a6214e8_summary.json"
+      }
+    },
+    "B_to_C": {
+      "txid": "b702f82988e20f05fc317de78022fd7c2c765bca6a29943f2d483b05204b054b",
+      "saved_paths": {
+        "full_artifact": "D:\\VS code files\\Blockchain2\\CS216-MerkleMinds-Bitcoin-Transaction\\outputs\\legacy\\B_to_C_b702f82988e20f05fc317de78022fd7c2c765bca6a29943f2d483b05204b054b_full.json",
+        "decoded_tx": "D:\\VS code files\\Blockchain2\\CS216-MerkleMinds-Bitcoin-Transaction\\outputs\\legacy\\B_to_C_b702f82988e20f05fc317de78022fd7c2c765bca6a29943f2d483b05204b054b_decoded.json",
+        "scripts": "D:\\VS code files\\Blockchain2\\CS216-MerkleMinds-Bitcoin-Transaction\\outputs\\legacy\\B_to_C_b702f82988e20f05fc317de78022fd7c2c765bca6a29943f2d483b05204b054b_scripts.json",
+        "summary": "D:\\VS code files\\Blockchain2\\CS216-MerkleMinds-Bitcoin-Transaction\\outputs\\legacy\\B_to_C_b702f82988e20f05fc317de78022fd7c2c765bca6a29943f2d483b05204b054b_summary.json"
+      }
+    }
+  },
+  "analysis_files": {
+    "challenge_response": "outputs/legacy/legacy_challenge_response_analysis.json",
+    "required_fields_A_to_B": "outputs/legacy/legacy_A_to_B_required_fields.json",
+    "required_fields_B_to_C": "outputs/legacy/legacy_B_to_C_required_fields.json",
+    "btcdeb_command": "outputs/legacy/legacy_btcdeb_command.txt"
+  },
+  "report_notes": [
+    "Mention the txid for A -> B and explain how it created B as a UTXO.",
+    "Show that B -> C spends the earlier output sent to B.",
+    "Explain the challenge script (scriptPubKey) and response script (scriptSig).",
+    "Include screenshots of decoderawtransaction outputs and btcdeb execution.",
+    "Record size, vsize, and weight for both transactions."
+  ]
+}
